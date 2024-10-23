@@ -6,12 +6,7 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		17C8398F2CC93FDE00B468BC /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C8398E2CC93FDE00B468BC /* UserView.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
-		17C8398E2CC93FDE00B468BC /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		17E9724F2CC8DE4B005F1DA2 /* FriendshipFetcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendshipFetcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -37,7 +32,6 @@
 		17E972462CC8DE4B005F1DA2 = {
 			isa = PBXGroup;
 			children = (
-				17C8398E2CC93FDE00B468BC /* UserView.swift */,
 				17E972512CC8DE4B005F1DA2 /* FriendshipFetcher */,
 				17E972502CC8DE4B005F1DA2 /* Products */,
 			);
@@ -125,7 +119,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17C8398F2CC93FDE00B468BC /* UserView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
