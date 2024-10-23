@@ -13,16 +13,13 @@ struct UserView: View {
         GridItem(.adaptive(minimum: 150))
     ]
     
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 
                 // Header Section
                 VStack(alignment: .leading, spacing: 10) {
-                    Text(user.name)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
                     Text(user.isActive ? "🟢 Active" : "🔴 Inactive")
                         .font(.headline)
                         .foregroundColor(user.isActive ? .green : .red)
