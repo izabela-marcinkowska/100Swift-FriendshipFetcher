@@ -23,9 +23,23 @@ struct ContentView: View {
             print("Error fetching data")
         }
     }
+    
     var body: some View {
-        List(results) { user in
-            Text(user.name)
+        NavigationStack{
+            List (results){ user in
+                NavigationLink(value: user) {
+                    VStack (alignment: .leading){
+                        Text(user.name)
+                        Text(user.isActive ? "Active" : "Inactive")
+                            .foregroundStyle(user.isActive ? .green : .gray)
+                        
+                    }
+                }
+            }
+            .navigationTitle("Friendship Fetcher")
+            .navigationDestination(for: User.self) { user in
+                UserView(user: user)
+            }
         }
         .task {
             if results.isEmpty {
@@ -35,6 +49,7 @@ struct ContentView: View {
                 print("Already loaded data")
             }
         }
+        
     }
 }
 

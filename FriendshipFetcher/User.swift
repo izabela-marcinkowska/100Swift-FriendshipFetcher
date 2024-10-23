@@ -11,7 +11,7 @@ struct Response: Codable {
     var results: [User]
 }
 
-struct User: Codable, Identifiable {
+struct User: Codable, Identifiable, Hashable {
     var id: UUID
     var isActive: Bool
     var name: String
@@ -25,7 +25,7 @@ struct User: Codable, Identifiable {
     var friends: [Friend]
 }
 
-struct Friend: Codable {
+struct Friend: Codable, Hashable {
     var id: UUID
     var name: String
 }
