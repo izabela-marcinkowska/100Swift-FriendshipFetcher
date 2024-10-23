@@ -24,13 +24,18 @@ struct ContentView: View {
         }
     }
     var body: some View {
-            List(results) { user in
-                Text(user.name)
-            }
-            .task {
+        List(results) { user in
+            Text(user.name)
+        }
+        .task {
+            if results.isEmpty {
+                
                 await loadData()
+            } else {
+                print("Already loaded data")
             }
         }
+    }
 }
 
 #Preview {
