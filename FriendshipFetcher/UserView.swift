@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct UserView: View {
+    @Environment(\.modelContext) private var modelContext
     let user: User
     let columns = [
         GridItem(.adaptive(minimum: 150))
@@ -98,27 +99,41 @@ struct UserView: View {
     }
 }
 // Provide a sample User for the preview
+// Inside your extension User
 extension User {
-    static let sampleUser = User(
-        id: UUID(uuidString: "50a48fa3-2c0f-4397-ac50-64da464f9954")!,
-        isActive: false,
-        name: "Alford Rodriguez",
-        age: 21,
-        company: "Imkan",
-        email: "alfordrodriguez@imkan.com",
-        address: "907 Nelson Street, Cotopaxi, South Dakota, 5913",
-        about: "Occaecat consequat elit aliquip magna laboris dolore laboris sunt officia adipisicing reprehenderit sunt.",
-        registered: "2015-11-10T01:47:18-00:00",
-        tags: ["cillum", "consequat", "deserunt", "nostrud", "eiusmod", "minim", "tempor"],
-        friends: [
+    static let sampleUser: User = {
+        // Parse the date string into a Date object
+        let isoFormatter = ISO8601DateFormatter()
+        isoFormatter.formatOptions = [.withInternetDateTime, .withDashSeparatorInDate, .withColonSeparatorInTime]
+        let registeredDate = isoFormatter.date(from: "2015-11-10T01:47:18-00:00") ?? Date()
+
+        // Create sample friends
+        let sampleFriends = [
             Friend(id: UUID(uuidString: "91b5be3d-9a19-4ac2-b2ce-89cc41884ed0")!, name: "Hawkins Patel"),
             Friend(id: UUID(uuidString: "0c395a95-57e2-4d53-b4f6-9b9e46a32cf6")!, name: "Jewel Sexton"),
-            Friend(id: UUID(uuidString: "be5918a3-8dc2-4f77-947c-7d02f69a58fe")!, name: "Berger Robertson"),
-            // Add more friends as needed
+            Friend(id: UUID(uuidString: "be5918a3-8dc2-4f77-947c-7d02f69a58fe")!, name: "Berger Robertson")
         ]
-    )
+
+        // Create the sample user
+        let user = User()
+        user.id = UUID(uuidString: "50a48fa3-2c0f-4397-ac50-64da464f9954")!
+        user.isActive = false
+        user.name = "Alford Rodriguez"
+        user.age = 21
+        user.company = "Imkan"
+        user.email = "alfordrodriguez@imkan.com"
+        user.address = "907 Nelson Street, Cotopaxi, South Dakota, 5913"
+        user.about = "Occaecat consequat elit aliquip magna laboris dolore laboris sunt officia adipisicing reprehenderit sunt."
+        user.registered = registeredDate
+        user.tags = ["cillum", "consequat", "deserunt", "nostrud", "eiusmod", "minim", "tempor"]
+        user.friends = sampleFriends
+
+        return user
+    }()
 }
+
 
 #Preview {
     UserView(user: User.sampleUser)
+        .modelContainer(for: [User.self, Friend.self])
 }
