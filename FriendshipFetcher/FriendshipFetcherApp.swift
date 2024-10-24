@@ -13,5 +13,6 @@ struct FriendshipFetcherApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [User.self, Friend.self])
     }
 }

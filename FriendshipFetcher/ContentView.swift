@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
-    @State private var results = [User]()
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \User.name) private var users: [User]
     func loadData() async{
         guard let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json") else {
             print("Invalid URL")
@@ -16,8 +18,19 @@ struct ContentView: View {
         }
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
-            if let decodedResponse = try? JSONDecoder().decode([User].self, from: data) {
-                results = decodedResponse
+            
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            
+            if let decodedResponse = try? decoder.decode([User].self, from: data) {
+                DispatchQueue.main.async {
+                    for user in decodedResponse {
+                        self.modelContext.insert(user)
+                    }
+                    try? self.modelContext.save()
+                }
+            } else {
+                print("Failed to decode JSON")
             }
         } catch {
             print("Error fetching data")
@@ -26,7 +39,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack{
-            List (results){ user in
+            List (users){ user in
                 NavigationLink(value: user) {
                     VStack (alignment: .leading){
                         Text(user.name)
@@ -42,7 +55,7 @@ struct ContentView: View {
             }
         }
         .task {
-            if results.isEmpty {
+            if users.isEmpty {
                 
                 await loadData()
             } else {
@@ -55,4 +68,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .modelContainer(for: [User.self, Friend.self])
 }
